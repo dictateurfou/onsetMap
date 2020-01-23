@@ -1,0 +1,21 @@
+{
+	"author": "Dictateurfou",
+	"version": "1.0",
+	"server_scripts": [
+	],
+	"client_scripts": [
+		"client.lua"
+    ],
+    "files" : [
+        "index.html",
+        "config.js",
+        "script.js",
+        "style.css",
+        "OnsetMapLayout_latest.png",
+        "img/amunation.png",
+        "img/store.png",
+        "img/petrol.png",
+        "img/marker.png"
+    ]
+    
+}
