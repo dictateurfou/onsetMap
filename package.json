@@ -7,15 +7,15 @@
 		"client.lua"
     ],
     "files" : [
-        "index.html",
-        "config.js",
-        "script.js",
-        "style.css",
-        "OnsetMapLayout_latest.png",
-        "img/amunation.png",
-        "img/store.png",
-        "img/petrol.png",
-        "img/marker.png"
+        "web/index.html",
+        "web/config.js",
+        "web/script.js",
+        "web/style.css",
+        "web/OnsetMapLayout_latest.png",
+        "web/img/amunation.png",
+        "web/img/store.png",
+        "web/img/petrol.png",
+        "web/img/marker.png"
     ]
     
 }

@@ -2,7 +2,7 @@ local width, height = GetScreenSize()
 local mapUi = CreateWebUI(0, 0, 0, 0, 1, 45)
 SetWebAlignment(mapUi, 0, 0)
 SetWebAnchors(mapUi, 0, 0, 1, 1)
-SetWebURL(mapUi, "http://asset/onsetMap/index.html")
+SetWebURL(mapUi, "http://asset/onsetMap/web/index.html")
 local uniqId = 0;
 
 function createBlip(id,type,pos)
