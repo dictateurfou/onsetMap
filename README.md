@@ -16,6 +16,7 @@ removeBlip(id : string) for remove spécific blip with identifier
 
 ### customisation of minimap
 exemple of config for gta5 style mini map
+
 [![Image from Gyazo](https://i.gyazo.com/c2aaf0162bccf48f239a65017d3481c8.png)](https://gyazo.com/c2aaf0162bccf48f239a65017d3481c8)
 ###### in config.js
 ```JS
