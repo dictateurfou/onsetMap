@@ -1,3 +1,9 @@
+miniMapClass = "mini-gta-style";
+minimapWidth = 300;
+minimapHeight = 200;
+playerScreenDividende = 1.3;
+baseScale = 0.8;
+
 types = {
     playerMarker:{name:"destination",img:"marker.png"},//d'ont remove playerMarker its used for add marker with right click
     amunation:{name:"Armurerie",img:"amunation.png"},

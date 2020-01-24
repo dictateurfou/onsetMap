@@ -12,3 +12,11 @@ body{
    bottom:0.5em;
    left:0.5em;
 }
+
+.mini-gta-style{
+    box-shadow:0 0 1em black;
+    position:absolute;
+    bottom:0.5em;
+    left:0.5em;
+    border-radius:10px;
+}

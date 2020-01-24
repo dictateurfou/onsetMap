@@ -45,8 +45,11 @@ function loadAssets(){
 
 function loadFinish(){
 	console.log("load finish")
-	canvas.width = 300;
-	canvas.height = 300;
+	canvas.width = minimapWidth;
+	canvas.height = minimapHeight;
+	canvas.classList.add(miniMapClass);
+	mapScale = baseScale;
+	canvas.style.display = "block";
 	window.requestAnimationFrame(loop)
 }
 /**************************************/
@@ -74,7 +77,7 @@ function drawMap(){
 	ctx.clearRect(-10000, -20000, canvas.width*100, canvas.height*100)
 
 	if(miniMapOpen){
-		ctx.setTransform(1,0,0,1,(canvas.width/2 - rx),(canvas.height/2 - ry));
+		ctx.setTransform(1,0,0,1,(canvas.width/2 - rx),(canvas.height/playerScreenDividende - ry));
 		ctx.rotate(rotationAngle)
 		ctx.scale(mapScale, mapScale);
 	}
@@ -173,15 +176,15 @@ function ShowFullScreenMap(){
 	canvasScreenPosition.y = player.position.y / step.y;
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
-	canvas.classList.remove("mini-map");
+	canvas.classList.remove(miniMapClass);
 }
 
 function returnToMiniMap(){
 	miniMapOpen = true;
-	mapScale = 1;
-	canvas.width = 300
-	canvas.height = 300
-	canvas.classList.add("mini-map");
+	mapScale = baseScale;
+	canvas.width = minimapWidth;
+	canvas.height = minimapHeight;
+	canvas.classList.add(miniMapClass);
 }
 
 function getReverseScale(mult){
