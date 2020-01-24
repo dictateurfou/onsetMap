@@ -1,10 +1,9 @@
 ## config
 Edit config.js
-
-###### blips = static point
-
-###### type = type of blip
-
+```
+blips = static point
+type = type of blip
+```
 ### create dynamic blip
 we have 2 export function for create update or remove blip
 ```LUA
