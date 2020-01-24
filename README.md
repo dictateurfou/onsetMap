@@ -15,4 +15,22 @@ removeBlip(id : string) for remove spécific blip with identifier
 ```
 
 ### customisation of minimap
-currently it is possible to modify the style of the mini map I would add a config to make the modification easier, and give an example of gta5 map style
+exemple of config for gta5 style mini map
+###### in config.js
+```JS
+miniMapClass = "mini-gta-style"; //css style
+minimapWidth = 300; //width
+minimapHeight = 200; //height
+playerScreenDividende = 1.3; //position camera of minimap (center is 2)
+baseScale = 0.8; //zoom of minimap default = 1,
+```
+###### in style.css (never change width or height in css)
+```CSS
+.mini-gta-style{
+    box-shadow:0 0 1em black;
+    position:absolute;
+    bottom:0.5em;
+    left:0.5em;
+    border-radius:10px;
+}
+```
