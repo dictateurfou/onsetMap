@@ -6,6 +6,7 @@ Edit config.js
 blips = static point
 type = type of blip
 ```
+if you add a new type with new image make sure you have added in packages.json and in web/img folder or map not load because wait all images load
 ### create dynamic blip
 we have 2 export function for create update or remove blip
 ```LUA
