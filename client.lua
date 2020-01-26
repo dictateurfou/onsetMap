@@ -1,12 +1,21 @@
 local width, height = GetScreenSize()
-local mapUi = CreateWebUI(0, 0, 0, 0, 99, 45)
+local mapUi = CreateWebUI(0, 0, 0, 0, 0, 45)
 SetWebAlignment(mapUi, 0, 0)
 SetWebAnchors(mapUi, 0, 0, 1, 1)
 SetWebURL(mapUi, "http://asset/onsetMap/web/index.html")
 SetWebVisibility(mapUi, WEB_HITINVISIBLE)
 local uniqId = 0;
 
-
+function forceUIFocus(ui)
+    local allUi = GetAllWebUI()
+    for k,v in pairs(allUi) do
+        if v ~= ui then
+            if GetWebVisibility(v) ~= WEB_HIDDEN then
+                SetWebVisibility(v, WEB_HITINVISIBLE)
+            end
+        end
+    end
+end
 
 function createBlip(id,type,pos)
     if id == nil then
@@ -33,6 +42,7 @@ end)
 
 AddEvent("onsetMap:focus",function()
     SetInputMode(INPUT_GAMEANDUI)
+    forceUIFocus(mapUi)
     SetWebVisibility(mapUi,WEB_VISIBLE)
     ShowMouseCursor(true)
 end)
