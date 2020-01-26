@@ -1,3 +1,9 @@
+```diff
+- know iussue 
+if you create an ui after that of the map, be sure to have set SetWebVisibility (WEB_HITINVISIBLE)
+in your ui otherwise the click and zoom of the whole map will not work mini map does not have this problem because not require click event
+```
+
 [![Image from Gyazo](https://i.gyazo.com/53f7b5df77f18c226564af8c1b882ba8.jpg)](https://gyazo.com/53f7b5df77f18c226564af8c1b882ba8)
 [![Image from Gyazo](https://i.gyazo.com/2afaac92fc1a0619fe0e98e8833389e9.jpg)](https://gyazo.com/2afaac92fc1a0619fe0e98e8833389e9)
 ## config
