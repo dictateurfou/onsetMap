@@ -1,10 +1,21 @@
+local callBackLoad = {}
 local width, height = GetScreenSize()
 local mapUi = CreateWebUI(0, 0, 0, 0, 0, 45)
+local load = false;
 SetWebAlignment(mapUi, 0, 0)
 SetWebAnchors(mapUi, 0, 0, 1, 1)
 SetWebURL(mapUi, "http://asset/onsetMap/web/index.html")
 SetWebVisibility(mapUi, WEB_HITINVISIBLE)
 local uniqId = 0;
+
+AddEvent("OnWebLoadComplete",function(web)
+	if web == mapUi then
+        for k,v in pairs(callBackLoad) do
+            AddPlayerChat(v);
+            ExecuteWebJS(mapUi,v)
+        end
+	end
+end)
 
 function forceUIFocus(ui)
     local allUi = GetAllWebUI()
@@ -15,6 +26,7 @@ function forceUIFocus(ui)
             end
         end
     end
+    SetWebVisibility(ui,WEB_VISIBLE)
 end
 
 function createBlip(id,type,pos)
@@ -24,7 +36,11 @@ function createBlip(id,type,pos)
     end
 
     local jsonPos = '{"x":'..pos.x..',"y":'..pos.y..'}'
-    ExecuteWebJS(mapUi,"createBlip('"..id.."','"..type.."',"..jsonPos..")")
+    if load == false then
+        table.insert(callBackLoad,"createBlip('"..id.."','"..type.."',"..jsonPos..")")
+    else
+        ExecuteWebJS(mapUi,"createBlip('"..id.."','"..type.."',"..jsonPos..")")
+    end
     return id
 end
 AddFunctionExport("createBlip", createBlip)
@@ -43,7 +59,6 @@ end)
 AddEvent("onsetMap:focus",function()
     SetInputMode(INPUT_GAMEANDUI)
     forceUIFocus(mapUi)
-    SetWebVisibility(mapUi,WEB_VISIBLE)
     ShowMouseCursor(true)
 end)
 
