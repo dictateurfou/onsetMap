@@ -16,7 +16,7 @@ var onDrag = false;
 var lastCursorPosition;
 var canvasScreenPosition = {x:0,y:0};
 var playerMarker = null;
-
+var textDrawList = [];
 /*load assets*/
 var mapImg = new Image();
 var dynamicBlips = {}
@@ -88,6 +88,7 @@ function drawMap(){
 	
 	ctx.drawImage(mapImg,-mapImg.width / 2, -mapImg.height / 2);
 	drawAllBlips();
+	drawText(textDrawList);
 	drawCirclePlayer(player.position.x,player.position.y);
 	
 }
@@ -163,6 +164,20 @@ function dot(x,y,radius,fill){
   ctx.fill();
 }
 
+function drawText(list){
+	list.forEach(text => {
+		let reverseScale = 1;
+		if(mapScale < 0.8){
+			reverseScale = getReverseScale(0.7);
+		}
+		ctx.font = 20 * reverseScale + "px Arial";
+		ctx.fillStyle = 'black';
+		let sizeOfText = ctx.measureText(text.content);
+
+		ctx.fillText(text.content, (text.pos.x / step.x) - (sizeOfText.width / 2),(text.pos.y / step.y) - text.margin.top);
+	});
+}
+
 /*OTHER*/
 function changePlayerPosition(x,y,rotation){
 	player.rotation = -rotation;
@@ -230,16 +245,13 @@ window.addEventListener("wheel", function(event) {
 	}
 });
 
+
 canvas.addEventListener('mousedown', function(e) {
 	if (e.button == 0){//left click
 		lastCursorPosition = getCursorPosition(canvas,e);
 		onDrag = true
 	}
 	else if(e.button == 2){//create or remove player marker
-		let reverseScale = 1
-		if(mapScale < 0.8){
-			reverseScale = getReverseScale(0.7);
-		}
 		let transform = ctx.getTransform();
 		let pos = getCursorPosition(canvas, e)
 		let x = ((pos.x - transform.e) * step.x) / mapScale;
@@ -251,9 +263,10 @@ canvas.addEventListener('mousedown', function(e) {
 			playerMarker = {type:"playerMarker",pos:{x:x, y:y}};
 		}
 	}
+
 })
 
-//remove right click (for nav)
+//remove right click (for navigator)
 document.addEventListener('contextmenu', event => event.preventDefault()); 
 
 canvas.addEventListener('mouseup', function(e) {
@@ -272,6 +285,70 @@ canvas.onmousemove = event => {
 		canvasScreenPosition.x = canvasScreenPosition.x + ((lastCursorPosition.x - newPosition.x) * speed)
 		canvasScreenPosition.y = canvasScreenPosition.y + ((lastCursorPosition.y - newPosition.y) * speed)
 		lastCursorPosition = getCursorPosition(canvas,event);
+	}
+
+	//for detect if mouse on blip
+	if(!miniMapOpen){
+		let transform = ctx.getTransform();
+		let cursorPos = getCursorPosition(canvas, event)
+		let reverseScale = 1;
+		let legend = [];
+		let cursorPosCanvas = {x:cursorPos.x - transform.e,y:cursorPos.y - transform.f};
+		if(mapScale < 0.8){
+			reverseScale = getReverseScale(0.7);
+		}
+		blips.forEach(blip => {
+			let zone = {
+				min:{
+					x:((blip.pos.x / step.x)) * mapScale - (((assets[blip.type].width / 2) * mapScale) * reverseScale),
+					y:((blip.pos.y / step.y)) * mapScale - (((assets[blip.type].height / 2) * mapScale) * reverseScale)
+				},
+				max:{
+					x:((blip.pos.x / step.x)) * mapScale + (((assets[blip.type].width / 2) * mapScale) * reverseScale),
+					y:((blip.pos.y / step.y)) * mapScale + (((assets[blip.type].height / 2) * mapScale) * reverseScale)
+				}
+			}
+			if(zone.max.x > cursorPosCanvas.x && zone.min.x < cursorPosCanvas.x && zone.max.y > cursorPosCanvas.y && zone.min.y < cursorPosCanvas.y){
+				legend.push({
+					pos:{
+						x:blip.pos.x,
+						y:blip.pos.y
+					},
+					margin:{
+						top:(((assets[blip.type].height / 2)) * reverseScale),
+						left:(((assets[blip.type].width / 2)) * reverseScale)
+					},
+					content: types[blip.type].name
+				});
+			}
+		});
+
+		for(let [k,v] of Object.entries(dynamicBlips)){
+			let zone = {
+				min:{
+					x:((v.pos.x / step.x)) * mapScale - (((assets[v.type].width / 2) * mapScale) * reverseScale),
+					y:((v.pos.y / step.y)) * mapScale - (((assets[v.type].height / 2) * mapScale) * reverseScale)
+				},
+				max:{
+					x:((v.pos.x / step.x)) * mapScale + (((assets[v.type].width / 2) * mapScale) * reverseScale),
+					y:((v.pos.y / step.y)) * mapScale + (((assets[v.type].height / 2) * mapScale) * reverseScale)
+				}
+			}
+			if(zone.max.x > cursorPosCanvas.x && zone.min.x < cursorPosCanvas.x && zone.max.y > cursorPosCanvas.y && zone.min.y < cursorPosCanvas.y){
+				legend.push({
+					pos:{
+						x:v.pos.x,
+						y:v.pos.y
+					},
+					margin:{
+						top:(((assets[v.type].height / 2)) * reverseScale),
+						left:(((assets[v.type].width / 2)) * reverseScale)
+					},
+					content: types[v.type].name
+				});
+			}
+		}
+		textDrawList = legend;
 	}
 }
 
