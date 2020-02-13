@@ -166,14 +166,19 @@ function dot(x,y,radius,fill){
 
 function drawText(list){
 	list.forEach(text => {
-		let reverseScale = 1;
-		if(mapScale < 0.8){
+		let reverseScale = 1.5;
+		if(mapScale < 0.1){
+			reverseScale = getReverseScale(1.4);
+		}
+		else if(mapScale < 0.8){
 			reverseScale = getReverseScale(0.7);
 		}
-		ctx.font = 20 * reverseScale + "px Arial";
+		let height = 10 * reverseScale;
+		ctx.font = height + "px Arial";
+		var sizeOfText = ctx.measureText(text.content);
 		ctx.fillStyle = 'black';
-		let sizeOfText = ctx.measureText(text.content);
-
+		ctx.fillRect((text.pos.x / step.x) - (sizeOfText.width / 2) - 5,(text.pos.y / step.y) - text.margin.top - height, sizeOfText.width + 10, height + (2 * reverseScale));
+		ctx.fillStyle = 'white';
 		ctx.fillText(text.content, (text.pos.x / step.x) - (sizeOfText.width / 2),(text.pos.y / step.y) - text.margin.top);
 	});
 }
@@ -364,6 +369,7 @@ function switchMap(){
 		if(typeof ue != 'undefined'){
 			ue.game.callevent("onsetMap:unfocus",[]);
 		}
+		textDrawList = []
 	}
 }
 
