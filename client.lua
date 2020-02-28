@@ -14,7 +14,8 @@ AddEvent("OnWebLoadComplete",function(web)
             AddPlayerChat(v);
             ExecuteWebJS(mapUi,v)
         end
-	end
+    end
+    load = true
 end)
 
 function forceUIFocus(ui)
@@ -44,6 +45,7 @@ function createBlip(id,type,pos)
     return id
 end
 AddFunctionExport("createBlip", createBlip)
+AddRemoteEvent("onsetMap:createBlip",createBlip)
 
 function removeBlip(id)
     ExecuteWebJS(mapUi,"removeBlip('"..id.."')")
