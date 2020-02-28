@@ -51,6 +51,7 @@ function removeBlip(id)
     ExecuteWebJS(mapUi,"removeBlip('"..id.."')")
 end
 AddFunctionExport("removeBlip", removeBlip)
+AddRemoteEvent("onsetMap:removeBlip",removeBlip)
 
 AddEvent("onsetMap:unfocus",function()
     SetInputMode(INPUT_GAME)
